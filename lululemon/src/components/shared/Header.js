@@ -118,7 +118,7 @@ export const Header = ({isSticky}) => {
 
                             <a onClick={() => navigate('/shop/mybag')}>
                                 <img src="https://www.svgrepo.com/show/43071/shopping-bag.svg" alt=""/>
-                                <p>0</p>
+                                <p>2</p>
                             </a>
                         </div>
                     </div>

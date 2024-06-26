@@ -3,9 +3,18 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import './AddToBag.scss'
 import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {addToBag} from "../../redux/actions/shoppingCartActions";
 
-export const AddToBag = ({isExpanded, handleExpand}) => {
+export const AddToBag = ({product, color, size, isExpanded, handleExpand}) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const handleAddToBag = () => {
+        navigate('/shop/mybag')
+        dispatch(addToBag(product, color, size))
+    }
+
+
     return (
         <div className='addToBagContainer'>
             <div className='ship'>
@@ -38,7 +47,8 @@ export const AddToBag = ({isExpanded, handleExpand}) => {
                     </label>
                 </div>)}
             <div className='buttonContainer'>
-                <button className='button1' onClick={() => navigate('/shop/mybag')}>ADD TO BAG</button>
+                <button className='button1' onClick={() => handleAddToBag(product)}>ADD TO BAG</button>
+
             </div>
             <div className='otherStoreContainer'>
                 <button className='button2'>Check All Store Inventory</button>

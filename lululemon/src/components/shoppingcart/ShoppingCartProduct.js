@@ -6,19 +6,19 @@ import './ShoppingCartProduct.scss'
 export const ShoppingCartProduct = () => {
     const shoppingCart = useSelector(state => state.shoppingCartReducer.shoppingCart)
     const dispatch = useDispatch()
-    const getCurrentImage = (item) => {
-        const currentImage = item.images?.find(image => image.colorId === item.selectedColorId)
-        if (currentImage) {
-            return {
-                image: currentImage.mainCarousel.media.split('|')[0].trim(),
-                colorAlt: currentImage.colorAlt
-            }
-        }
-        return {
-            image: '',
-            colorAlt: 'No Color Alt',
-        }
-    }
+    // const getCurrentImage = (item) => {
+        // const currentImage = item.images?.find(image => image.colorId === item.selectedColorId)
+        // if (currentImage) {
+        //     return {
+        //         image: currentImage.mainCarousel.media.split('|')[0].trim(),
+        //         colorAlt: currentImage.colorAlt
+        //     }
+        // }
+        // return {
+        //     image: '',
+        //     colorAlt: 'No Color Alt',
+        // }
+    // }
     const convertPriceToNumber = (price) => {
         try {
             if (!price.startsWith('$')) {
@@ -26,7 +26,7 @@ export const ShoppingCartProduct = () => {
             }
             // convert the '$85 CAD' to, a number so we can use to calculate, and then convert it to '$85.00' form.
             const newPrice = price.replace('$', '').trim();
-            const priceNumber = Number(newPrice.slice(0, newPrice.indexOf(' '))).toFixed(2);
+            const priceNumber = Number(newPrice.slice(0, newPrice.indexOf('C')).trim()).toFixed(2);
             return `$${priceNumber}`;
         } catch (error) {
             console.error('Error converting price:', error);
@@ -39,12 +39,13 @@ export const ShoppingCartProduct = () => {
                 throw new Error('Price format is incorrect');
             }
             const newPrice = price.replace('$', '').trim();
-            const priceNumber = Number(newPrice.slice(0, newPrice.indexOf(' ')));
+            const priceNumber = Number(newPrice.slice(0, newPrice.indexOf('C')).trim());
             if (isNaN(priceNumber) || isNaN(quantity)) {
                 throw new Error('Invalid number format');
             }
             // convert the '$85 CAD' to, a number so we can use to calculate the total price with quantity, and then convert it to '$85.00' form.
             const totalPrice = (priceNumber * quantity).toFixed(2);
+            console.log('total', totalPrice)
             return `$${totalPrice}`;
         } catch (error) {
             console.error('Error calculating total price:', error);
@@ -76,25 +77,24 @@ export const ShoppingCartProduct = () => {
                 </div>
                 <div className='itemsContainer'>
                     {shoppingCart.map((item, index) => {
-                        const {image, colorAlt} = getCurrentImage(item)
+                        // const {image, colorAlt} = getCurrentImage(item)
                         return (
                             <div key={index} className='itemContainer'>
-                                <img className='productImage' src={image} alt={colorAlt}/>
+                                {/*<img className='productImage' src={image} alt={colorAlt}/>*/}
                                 {/*<img src={  item.images[0].mainCarousel.media.split('|')[0].trim()} alt={item.name}/>*/}
                                 <div className='productDetailsContainer'>
                                     <h3 className='productName'>{item.name}</h3>
-                                    <p className='productColor'>{colorAlt}</p>
+                                    {/*<p className='productColor'>{colorAlt}</p>*/}
                                     <div className='productDetails'>
                                         <div className='sizeAndEditContainer'>
                                             <div className='size'>
-                                                Size {item.selectedSize}
+                                                Size {item.sizesSelected}
                                             </div>
                                             <button className='edit button'>Edit</button>
                                         </div>
                                         <div className='productDetailsRight'>
                                             <div className='priceContainer'>
                                                 <div>Item Price</div>
-
                                                 <div>{convertPriceToNumber(item.price)}</div>
                                             </div>
                                             <div className='quantityContainer'>
