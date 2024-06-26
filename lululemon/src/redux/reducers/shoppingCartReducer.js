@@ -13,14 +13,11 @@ export const shoppingCartReducer = (state = initialState, action) => {
         case actionTypes.ADD_TO_BAG:
             let addProduct = action.payload.product
             let idExist = false
-            console.log('inputId', addProduct.productId)
-            console.log('inputC', action.payload.color)
-            console.log('inputS', action.payload.size)
             const addQuantity = state.shoppingCart.map(item => {
                 if (item.productId === action.payload.product.productId
                     // && item.images[0].colorId === action.payload.color
                     // && item.sizesSelected === action.payload.size
-                ) {
+                ) { if (item.images[0].colorId === action.payload.color) {
                     console.log('SAME', item.quantity)
                     idExist = true
                     let addItem = {
@@ -29,6 +26,8 @@ export const shoppingCartReducer = (state = initialState, action) => {
                     }
                     console.log(addItem)
                     return addItem
+                }
+
                 }})
 
             if (idExist) {
